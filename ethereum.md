@@ -304,7 +304,7 @@ TODO: `check` on `"gas"` is dropped, `check` on `"callcreates"` ignores the `"ga
     rule check TESTID : { "gas" : GLEFT } => check "gas" : GLEFT ~> failure TESTID
  // ------------------------------------------------------------------------------
     rule check "gas" : ((GLEFT:String) => #parseHexWord(GLEFT))
-    rule check "gas" : GLEFT => .
+    rule <k> check "gas" : GLEFT => . ... </k> <gas> GLEFT </gas>
 
     rule check TESTID : { "callcreates" : CCREATES } => check "callcreates" : CCREATES ~> failure TESTID
  // ----------------------------------------------------------------------------------------------------
