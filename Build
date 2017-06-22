@@ -84,6 +84,10 @@ run_make() {
     make -s $make_opts $@
 }
 
+run_update_passing() {
+    sort -u "$expected_passing" "$now_passing" -o "$expected_passing"
+}
+
 usage() {
     echo "
     usage:
@@ -96,12 +100,13 @@ usage() {
 
                                 These tests are filtered by <regex>
 
+       $0 krun <arg>            Same as test, but pretty print output instead of checking it
+
        $0 list-tests   <regx>   Run passing and failing tests
        $0 list-failing <regx>   Run failing tests
        $0 list-passing <regx>   Run passing tests
 
-
-       $0 krun <arg>            Same as test, but pretty print output instead of checking it
+       $0 update-passing        Add tests passing on the last run to the passing list
 "
 }
 
@@ -111,11 +116,11 @@ run_command="$1" && shift
 case "$run_command" in
     build)        run_make build ;;
     defn)         run_make defn ;;
+    update-passing) run_update_passing ;;
 
     passing)      list_passing | filter_tests "$@" | run_tests;;
     failing)      list_failing | filter_tests "$@" | run_tests;;
     test)         list_tests   | filter_tests "$@" | run_tests;;
-
     krun)         list_tests   | filter_tests "$@" | run_krun "$@";;
 
     list-tests)   list_tests   | filter_tests "$@";;
