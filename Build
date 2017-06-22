@@ -106,23 +106,22 @@ usage() {
 }
 
 [[ "$#" == '0' ]] && set build
-while [[ "$#" -gt '0' ]]; do
-    run_command="$1" && shift
-    case "$run_command" in
-        build)        run_make build ;;
-        defn)         run_make defn ;;
 
-        passing)      list_passing | filter_tests "$@" | run_tests; exit;;
-        failing)      list_failing | filter_tests "$@" | run_tests; exit;;
-        test)         list_tests   | filter_tests "$@" | run_tests; exit;;
+run_command="$1" && shift
+case "$run_command" in
+    build)        run_make build ;;
+    defn)         run_make defn ;;
 
-        krun)         list_tests   | filter_tests "$@" | run_krun "$@"; exit ;;
+    passing)      list_passing | filter_tests "$@" | run_tests;;
+    failing)      list_failing | filter_tests "$@" | run_tests;;
+    test)         list_tests   | filter_tests "$@" | run_tests;;
 
-        list-tests)   list_tests   | filter_tests "$@";  exit ;;
-        list-failing) list_failing | filter_tests "$@";  exit ;;
-        list-passing) list_passing | filter_tests "$@";  exit ;;
+    krun)         list_tests   | filter_tests "$@" | run_krun "$@";;
 
-        ktest)        run_ktest ;;
-        *)            usage; exit 1;;
-    esac
-done
+    list-tests)   list_tests   | filter_tests "$@";;
+    list-failing) list_failing | filter_tests "$@";;
+    list-passing) list_passing | filter_tests "$@";;
+
+    ktest)        run_ktest ;;
+    *)            usage; exit 1;;
+esac
