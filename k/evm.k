@@ -218,8 +218,9 @@ module ETHEREUM
 
 
     syntax KItem  ::= OpCode
-    syntax OpCode ::= NullStackOp | UnStackOp | BinStackOp | TernStackOp | QuadStackOp
-                    | InvalidOp | StackOp | InternalOp | CallOp | CallSixOp | PushOp
+    syntax OpCode ::= InternalOp | VmOp | OpWithArgs
+    syntax VmOp ::= NullStackOp | UnStackOp | BinStackOp | TernStackOp | QuadStackOp
+                    | InvalidOp | StackOp | CallOp | CallSixOp | PushOp
  // --------------------------------------------------------------------------------
 
 
@@ -346,7 +347,8 @@ module ETHEREUM
 // address (modulo 160 bits), so the `#addr?` function performs that check.
 
 
-    syntax InternalOp ::= UnStackOp Word
+    syntax OpWithArgs ::= NullStackOp
+                        | UnStackOp Word
                         | BinStackOp Word Word
                         | TernStackOp Word Word Word
                         | QuadStackOp Word Word Word Word
